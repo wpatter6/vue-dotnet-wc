@@ -1,0 +1,7 @@
+{
+  "appUrl": "",
+  "appPrefix": "",
+  "vueUrl": "https://unpkg.com/vue@2.6.10",
+  "components": [
+  ]
+}

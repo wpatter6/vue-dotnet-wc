@@ -1,0 +1,13 @@
+﻿<configuration>
+  <configSections>
+    <section name="vueConfig" type="Vue.Net.WebComponents.VueConfig, Vue.Net.WebComponents" />
+  </configSections>
+  <vueConfig appUrl="" appPrefix="" vueUrl="https://unpkg.com/vue@2.6.10">
+    <!-- App Url: a relative or absolute path, can be local to the project or an external url (CDN) -->
+    <!-- App Prefix: when building your vue app with target wc, this is the 'name' parameter. -->
+    <components>
+        <!-- Add your web component names here, where name is their '<name>.vue' filename -->
+        <!-- <component name='VueComponent1' /> -->
+    </components>
+  </vueConfig>
+</configuration>
