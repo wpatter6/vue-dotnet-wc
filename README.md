@@ -1,4 +1,4 @@
-![Vue dot net](https://raw.githubusercontent.com/wpatter6/vue-dotnet/master/vue-dotnet-icon.png)
+![Vue dot net](https://raw.githubusercontent.com/wpatter6/vue-dotnet-wc/master/vue-dotnet-icon.png)
 
 # Vue.Net.WebComponents
 
