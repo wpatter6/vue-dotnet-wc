@@ -1,5 +1,6 @@
 ![Vue dot net](https://raw.githubusercontent.com/wpatter6/vue-dotnet/master/vue-dotnet-icon.png)
-#Vue.Net.WebComponents
+
+# Vue.Net.WebComponents
 
 Simple integration of Vue.js web components and .NET standard MVC
 
