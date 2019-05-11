@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
+    <img alt="Vue logo" src="@/assets/logo.png">
     <HelloWorld :msg="msg"></HelloWorld>
   </div>
 </template>
@@ -20,4 +20,12 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.home {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
 </style>

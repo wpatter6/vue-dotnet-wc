@@ -1,34 +1,63 @@
 # vue-dotnet-wc-example-ts
 
 ## Project setup
+
 ```
-yarn install
+npm install
 ```
+
+---
 
 ### Compiles and hot-reloads for development
+
 ```
-yarn run serve
+npm run serve
 ```
 
-### Compiles and minifies for production
+- Entry point is main.ts
+
+---
+
+### Compiles and minifies for production as web components
+
 ```
-yarn run build
+npm run build
 ```
+
+- Entry point is /dist/my-vue.js.
+- Change the `my-vue` name in the package.json build script `--name` argument. Changing this will require updating the `vuesettings.json` or `web.config` on the dotnet side.
+- Remove the ".template" from the included `env.local.template` file and it will copy your changes into that project after build.
+
+---
 
 ### Run your tests
+
 ```
-yarn run test
+npm run test
 ```
+
+---
 
 ### Lints and fixes files
+
 ```
-yarn run lint
+npm run lint
 ```
+
+---
 
 ### Run your unit tests
+
 ```
-yarn run test:unit
+npm run test:unit
 ```
 
+---
+
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+---
+
+This project is a pretty basic vue-cli 3 installation. It has a webpack plugin included in the vue.config.js that copies the dist folder into the neighboring dotnet core example project.

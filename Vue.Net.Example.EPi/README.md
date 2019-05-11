@@ -1,0 +1,2 @@
+- Web.config section `<vueConfig>` drives the configuration of the vue application
+- You will need to go to `/EpiServer/CMS` and authenticate to start adding content. The Vue Block should be available to you as a block template to create.

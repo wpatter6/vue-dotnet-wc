@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --target wc-async --name v-app src/views/**/*.vue",
+    "build": "vue-cli-service build --target wc-async --name my-vue src/views/**/*.vue",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },

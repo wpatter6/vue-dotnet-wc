@@ -1,8 +1,6 @@
 {
-  "appUrl": "https://vuecdndev2.azureedge.net/v-app.js",
-  "appPrefix": "v-app",
+  "appUrl": "/js/dist/my-vue.js",
+  "appPrefix": "my-vue",
   "vueUrl": "https://unpkg.com/vue@2.6.10",
-  "components": [
-    { "name": "HelloWorld" },
-  ]
+  "components": [ { "name": "Home" } ]
 }
