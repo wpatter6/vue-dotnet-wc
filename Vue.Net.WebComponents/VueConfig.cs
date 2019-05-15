@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
-using Newtonsoft.Json;
 
 namespace Vue.Net.WebComponents
 {
@@ -25,7 +22,7 @@ namespace Vue.Net.WebComponents
 
     public class VueConfig : System.Configuration.ConfigurationSection, IVueConfig
     {
-        public static IVueConfig Settings => ConfigurationManager.GetSection("vueConfig") as VueConfig ?? GetVueConfigCore();
+        public static IVueConfig Settings => ConfigurationManager.GetSection("vueConfig") as VueConfig ?? VueConfigStartup.VueConfigStatic;
 
         private VueConfig() { }
 
@@ -43,21 +40,6 @@ namespace Vue.Net.WebComponents
         public virtual Components ComponentList => this["components"] as Components;
 
         public virtual IEnumerable<IVueConfigComponent> Components => ComponentList;
-
-        private static IVueConfig GetVueConfigCore()
-        {
-            try
-            {
-                var settingsString = File.ReadAllText("vuesettings.json");
-                var dynamic = JsonConvert.DeserializeObject(settingsString);
-                return JsonConvert.DeserializeObject<CoreVueConfig>(settingsString);
-            }
-            catch
-            {
-                throw new Exception(
-                    "Unable to read vuesettings.json.  Make sure the file exists and Copy To Output Directory is set to \"always\"");
-            }
-        }
     }
 
     public class CoreVueConfig : IVueConfig
@@ -126,6 +108,31 @@ namespace Vue.Net.WebComponents
         IEnumerator<IVueConfigComponent> IEnumerable<IVueConfigComponent>.GetEnumerator()
         {
             return this.BaseGetAllKeys().Select(key => (component)BaseGet(key)).GetEnumerator();
+        }
+    }
+
+    public static class VueConfigStartup
+    {
+        internal static IVueConfig VueConfigStatic { get; set; }
+        public static IHostingEnvironment UseVueWebComponents(this IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("vuesettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"vuesettings.{env.EnvironmentName}.json", optional: true);
+            var config = builder.Build();
+
+            var componentList = config.GetSection("components").Get<List<string>>();
+
+            VueConfigStatic = new CoreVueConfig()
+            {
+                AppUrl = config["appUrl"],
+                AppPrefix = config["appPrefix"],
+                VueUrl = config["vueUrl"],
+                Components = componentList.Select(n => new CoreVueComponent(n))
+            };
+
+            return env;
         }
     }
 }

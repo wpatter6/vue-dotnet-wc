@@ -42,8 +42,7 @@ namespace Vue.Net.WebComponents.Utilities
         public static string ComponentToTagName(this string value)
         {
             if (string.IsNullOrEmpty(value)) return "div";
-            var vueSettings = VueConfig.Settings;
-            return !string.IsNullOrEmpty(vueSettings.AppPrefix) ? $"{vueSettings.AppPrefix}-{value.PascalToKebabCase()}" : value.PascalToKebabCase();
+            return !string.IsNullOrEmpty(VueConfig.Settings?.AppPrefix) ? $"{VueConfig.Settings.AppPrefix}-{value.PascalToKebabCase()}" : value.PascalToKebabCase();
 
         }
     }

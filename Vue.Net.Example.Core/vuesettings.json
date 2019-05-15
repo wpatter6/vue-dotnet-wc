@@ -2,5 +2,7 @@
   "appUrl": "/js/dist/my-vue.js",
   "appPrefix": "my-vue",
   "vueUrl": "https://unpkg.com/vue@2.6.10",
-  "components": [ { "name": "Home" } ]
+  "components": [
+    "Home"
+  ]
 }

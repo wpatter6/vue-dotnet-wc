@@ -1,7 +1,9 @@
 using FluentAssertions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Vue.Net.WebComponents;
 using Vue.Net.Example.Core;
@@ -12,7 +14,13 @@ namespace Vue.Net.Example.Core.Tests
     public class Tests
     {
         private const string VueUrl = "https://unpkg.com/vue@2.6.10";
-        private const string AppUrl = "https://vuecdndev2.azureedge.net/v-app.js";
+        private const string AppUrl = "/js/dist/my-vue.js";
+
+        public Tests()
+        {
+            new TestServer(new WebHostBuilder()
+                .UseStartup<Startup>()).CreateClient();
+        }
 
         [Fact]
         public void GetVueConfigSettings()
@@ -20,11 +28,11 @@ namespace Vue.Net.Example.Core.Tests
             VueConfig.Settings.Should().BeEquivalentTo(new
             {
                 AppUrl,
-                AppPrefix = "v-app",
+                AppPrefix = "my-vue",
                 VueUrl,
                 Components = new dynamic[]
                 {
-                    new { Name = "HelloWorld" },
+                    new { Name = "Home" },
                 }
             });
         }
@@ -41,7 +49,7 @@ namespace Vue.Net.Example.Core.Tests
             var str = component.RenderTag();
             str.Should().BeEquivalentTo(new
             {
-                Value = "<v-app-hello-world msg=\"Hello Core\"></v-app-hello-world>"
+                Value = "<my-vue-hello-world msg=\"Hello Core\"></my-vue-hello-world>"
             });
         }
 

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Vue.Net.WebComponents;
 
 namespace Vue.Net.Example.Core
 {
@@ -38,6 +39,8 @@ namespace Vue.Net.Example.Core
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            env.UseVueWebComponents();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
