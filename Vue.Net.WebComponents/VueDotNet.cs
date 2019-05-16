@@ -13,52 +13,79 @@ namespace Vue.Net.WebComponents
         /// <summary>
         /// Renders the IVueComponent to a HtmlString which can be used inside an MVC view.
         /// </summary>
-        /// <param name="vueBlock">The IVueComponent instance to render.</param>
+        /// <param name="vueComponent">The IVueComponent instance to render.</param>
         /// <returns></returns>
-        public static HtmlString RenderTag(this IVueComponent vueBlock)
+        public static HtmlString RenderComponent(this IVueComponent vueComponent)
         {
-            var tagName = vueBlock.ComponentName.ComponentToTagName();
+            var tagName = vueComponent.ComponentName.ComponentToTagName();
             var outerElement = new TagBuilder(tagName)
             {
                 InnerHtml = ""
             };
 
-            if (vueBlock.Props.Count > 0)
+            if (vueComponent.Props.Count > 0)
             {
-                foreach(var item in vueBlock.Props)
+                foreach(var item in vueComponent.Props)
                 {
-                    var attr = item.Key.PascalToKebabCase();
-                    if (!(item.Value is string valString))
-                    {
-                        attr = ":" + attr;
-                        valString = JsonConvert.SerializeObject(item.Value);
-                    }
+                    var (attr, value) = item.GetPropWithValue();
 
-                    outerElement.MergeAttribute(attr, valString);
+                    outerElement.MergeAttribute(attr, value);
                 }
             }
 
-            if (vueBlock.SlotHtml != null)
+            if (vueComponent.SlotHtml != null)
             {
-                outerElement.InnerHtml += vueBlock.SlotHtml;
+                outerElement.InnerHtml += vueComponent.SlotHtml;
             }
 
-            vueBlock.NamedSlots?.ToList().ForEach(content =>
-            {
-                var slotTag = new TagBuilder(string.IsNullOrEmpty(content.TagName) ? "div" : content.TagName);
-
-                slotTag.MergeAttribute("slot", content.SlotName);
-
-                if (content.ContentHtml != null)
-                {
-                    slotTag.InnerHtml += content.ContentHtml;
-                }
-
-                outerElement.InnerHtml += slotTag.ToString();
-            });
+            outerElement.InnerHtml += vueComponent.GetNamedSlotString();
 
             return new HtmlString(outerElement.ToString());
         }
+
+        /// <summary>
+        /// Renders the HtmlString of props for an IVueComponentWithProps
+        /// </summary>
+        /// <param name="vueComponent"></param>
+        /// <returns></returns>
+        public static HtmlString RenderComponentProps(this IVueComponentWithProps vueComponent)
+        {
+            var result = string.Empty;
+
+            foreach (var item in vueComponent.Props)
+            {
+                var (attr, value) = item.GetPropWithValue();
+
+                if (!string.IsNullOrEmpty(result))
+                {
+                    result += " ";
+                }
+
+                result += $"{attr}=\"{value}\"";
+            }
+            return new HtmlString(result);
+        }
+
+        /// <summary>
+        /// Renders the HtmlString of a default slot for an IVueComponentWithProps
+        /// </summary>
+        /// <param name="vueComponent"></param>
+        /// <returns></returns>
+        public static HtmlString RenderComponentDefaultSlot(this IVueComponentWithDefaultSlot vueComponent)
+        {
+            return new HtmlString(vueComponent.SlotHtml);
+        }
+
+        /// <summary>
+        /// Renders the HtmlString for a set of named slots in an IVueComponentWithNamedSlots
+        /// </summary>
+        /// <param name="vueComponent"></param>
+        /// <returns></returns>
+        public static HtmlString RenderComponentNamedSlots(this IVueComponentWithNamedSlots vueComponent)
+        {
+            return new HtmlString(vueComponent.GetNamedSlotString());
+        }
+        
         /// <summary>
         /// Renders the script tags using the appUrl and vueUrl values in the application configuration file.
         /// </summary>
@@ -72,6 +99,7 @@ namespace Vue.Net.WebComponents
 
             return new HtmlString($"{vueLink}{appLink}");
         }
+
         private static TagBuilder GetStaticElement(VueScriptLocation location, string url)
         {
             switch (location)

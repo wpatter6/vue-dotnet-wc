@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Vue.Net.WebComponents</RootNamespace>
-    <Version>0.1.0</Version>
+    <Version>0.1.2</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <NuspecFile>Vue.Net.nuspec</NuspecFile>
   </PropertyGroup>

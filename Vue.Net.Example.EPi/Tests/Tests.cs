@@ -6,6 +6,7 @@ using EPiServer.Core;
 using Vue.Net.WebComponents;
 using Vue.Net.Example.EPi.Models.Blocks;
 using FluentAssertions;
+using Moq;
 using Vue.Net.Tests.EPi;
 using Xunit;
 
@@ -69,10 +70,67 @@ namespace Vue.Net.Example.EPi.Tests
                 }
             };
 
-            var result = block.RenderTag();
+            var result = block.RenderComponent();
             result.Should().BeEquivalentTo(new
             {
                 Value = "<v-app-hello-world msg=\"Hello EPiServer\"><p>Hello</p><v-app-vue-test-2 slot=\"left-banner\"></v-app-vue-test-2></v-app-hello-world>"
+            });
+        }
+
+
+        [Fact]
+        public void RenderVueComponentProps()
+        {
+            var component = new Mock<IVueComponentWithProps>();
+            component.Setup(m => m.Props).Returns(new Dictionary<string, object>()
+            {
+                { "abc", "def" },
+                { "hij", new { name = "klm" } }
+            });
+
+            var str = component.Object.RenderComponentProps();
+            str.Should().BeEquivalentTo(new
+            {
+                Value = "abc=\"def\" :hij=\"{'name':'klm'}\""
+            });
+        }
+
+        [Fact]
+        public void RenderVueComponentDefaultSlot()
+        {
+            var slotHtml = "<div>This is a slot!</div>";
+            var component = new Mock<IVueComponentWithDefaultSlot>();
+            component.Setup(m => m.SlotHtml).Returns(slotHtml);
+
+            var str = component.Object.RenderComponentDefaultSlot();
+            str.Should().BeEquivalentTo(new
+            {
+                Value = slotHtml
+            });
+        }
+
+        [Fact]
+        public void RenderVueComponentNamedSlots()
+        {
+            var namedSlot1 = new Mock<IVueNamedSlot>();
+            namedSlot1.Setup(m => m.SlotName).Returns("slot1");
+            namedSlot1.Setup(m => m.ContentHtml).Returns("<div>This is slot 1.</div>");
+
+            var namedSlot2 = new Mock<IVueNamedSlot>();
+            namedSlot2.Setup(m => m.SlotName).Returns("slot2");
+            namedSlot2.Setup(m => m.ContentHtml).Returns("<div>This is the second slot.</div>");
+
+            var component = new Mock<IVueComponentWithNamedSlots>();
+            component.Setup(m => m.NamedSlots).Returns(new List<IVueNamedSlot>()
+            {
+                namedSlot1.Object,
+                namedSlot2.Object
+            });
+
+            var str = component.Object.RenderComponentNamedSlots();
+            str.Should().BeEquivalentTo(new
+            {
+                Value = "<div slot=\"slot1\"><div>This is slot 1.</div></div><div slot=\"slot2\"><div>This is the second slot.</div></div>"
             });
         }
     }

@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 
 namespace Vue.Net.WebComponents.Utilities
@@ -21,29 +24,51 @@ namespace Vue.Net.WebComponents.Utilities
                 .ToLower();
         }
 
-        public static string ToProps(this string value)
-        {
-            var propObj = JsonConvert.DeserializeObject<Dictionary<string, object>>(value);
-            var result = "";
-            foreach(var item in propObj)
-            {
-                var attr = item.Key.PascalToKebabCase();
-                if (!(item.Value is string valString))
-                {
-                    attr = ":" + attr;
-                    valString = JsonConvert.SerializeObject(item.Value);
-                }
-
-                result += $"{attr}=\"{valString}\"";
-            }
-            return result;
-        }
-
         public static string ComponentToTagName(this string value)
         {
             if (string.IsNullOrEmpty(value)) return "div";
             return !string.IsNullOrEmpty(VueConfig.Settings?.AppPrefix) ? $"{VueConfig.Settings.AppPrefix}-{value.PascalToKebabCase()}" : value.PascalToKebabCase();
 
         }
+        public static string GetNamedSlotString(this IVueComponentWithNamedSlots vueComponent)
+        {
+            var result = string.Empty;
+            vueComponent.NamedSlots?.ToList().ForEach(content =>
+            {
+                var slotTag = new TagBuilder(string.IsNullOrEmpty(content.TagName) ? "div" : content.TagName);
+
+                slotTag.MergeAttribute("slot", content.SlotName);
+
+                if (content.ContentHtml != null)
+                {
+                    slotTag.InnerHtml += content.ContentHtml;
+                }
+
+                result += slotTag.ToString();
+            });
+            return result;
+        }
+
+        private static string EscapeAttr(this string str)
+        {
+            return HttpUtility.HtmlAttributeEncode(str);
+        }
+
+        public static (string attr, string value) GetPropWithValue(this KeyValuePair<string, object> item)
+        {
+            var attr = item.Key.PascalToKebabCase();
+            if (!(item.Value is string valString))
+            {
+                attr = ":" + attr;
+                valString = JsonConvert.SerializeObject(item.Value, EscapeJsonSerializerSettings);
+            }
+
+            return (attr, valString.Replace('"', '\''));
+        }
+
+        private static readonly JsonSerializerSettings EscapeJsonSerializerSettings = new JsonSerializerSettings()
+        {
+            StringEscapeHandling = StringEscapeHandling.EscapeHtml
+        };
     }
 }

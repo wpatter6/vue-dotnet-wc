@@ -2,24 +2,24 @@
 <package>
   <metadata>
     <id>Vue.Net.WebComponents</id>
-    <version>0.1.0</version>
+    <version>0.1.2</version>
     <authors>Will Patterson</authors>
     <owners>Will Patterson</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Vue.js Web Components integration for C# projects in .NET Standard</description>
     <summary>Vue.js Web Components integration for C# projects in .NET Standard</summary>
     <tags>Vue .NET dotnet standard CMS EPiServer Umbraco</tags>
-    <projectUrl>https://github.com/wpatter6/vue-dotnet</projectUrl>
+    <projectUrl>https://github.com/wpatter6/vue-dotnet-wc</projectUrl>
     <copyright>2019 Will Patterson</copyright>
     <license type="expression">MIT</license>
-    <iconUrl>https://raw.githubusercontent.com/wpatter6/vue-dotnet/master/vue-dotnet-icon.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/wpatter6/vue-dotnet-wc/master/vue-dotnet-icon.png</iconUrl>
     <dependencies>
       <dependency id="Microsoft.AspNet.Mvc" version="5.2.7" />
       <dependency id="Microsoft.AspNetCore.Html.Abstractions" version="2.2.0" />
       <dependency id="Newtonsoft.Json" version="11.0.2" />
       <dependency id="System.Configuration.ConfigurationManager" version="4.5.0" />
     </dependencies>
-    <repository type="git" url="https://github.com/wpatter6/vue-dotnet" />
+    <repository type="git" url="https://github.com/wpatter6/vue-dotnet-wc" />
   </metadata>
   <files>
     <!-- Include Assets as Content -->
