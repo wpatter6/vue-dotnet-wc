@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Vue.Net.WebComponents
+﻿namespace Vue.Net.WebComponents
 {
     public interface IVueComponentWithDefaultSlot
     {

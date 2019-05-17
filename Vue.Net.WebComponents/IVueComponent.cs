@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Vue.Net.WebComponents
+﻿namespace Vue.Net.WebComponents
 {
     public interface IVueComponent : IVueComponentWithProps, IVueComponentWithDefaultSlot, IVueComponentWithNamedSlots
     {

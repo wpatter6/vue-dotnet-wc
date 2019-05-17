@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Vue.Net.WebComponents</id>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <authors>Will Patterson</authors>
     <owners>Will Patterson</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -16,7 +16,7 @@
     <dependencies>
       <dependency id="Microsoft.AspNet.Mvc" version="5.2.7" />
       <dependency id="Microsoft.AspNetCore.Html.Abstractions" version="2.2.0" />
-      <dependency id="Newtonsoft.Json" version="11.0.2" />
+      <dependency id="Newtonsoft.Json" version="[10.0.1,]" />
       <dependency id="System.Configuration.ConfigurationManager" version="4.5.0" />
     </dependencies>
     <repository type="git" url="https://github.com/wpatter6/vue-dotnet-wc" />
