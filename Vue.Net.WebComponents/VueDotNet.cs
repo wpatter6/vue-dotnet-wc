@@ -41,6 +41,11 @@ namespace Vue.Net.WebComponents
             return new HtmlString(outerElement.ToString());
         }
 
+        public static HtmlString ToTagName(this string value)
+        {
+            return new HtmlString(value.ComponentToTagName());
+        }
+
         /// <summary>
         /// Renders the HtmlString of props for an IVueComponentWithProps
         /// </summary>

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using FluentAssertions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -128,6 +129,17 @@ namespace Vue.Net.Example.Core.Tests
             str.Should().BeEquivalentTo(new
             {
                 Value = $"<link as=\"script\" href=\"{VueUrl}\" rel=\"preload\"></link><link as=\"script\" href=\"{AppUrl}\" rel=\"preload\"></link>"
+            });
+        }
+
+        [Fact]
+        public void ComponentToTagName()
+        {
+            var tagName = "CoolComponentTagName";
+            var str = tagName.ToTagName();
+            str.Should().BeEquivalentTo(new
+            {
+                Value = $"my-vue-cool-component-tag-name"
             });
         }
     }

@@ -133,5 +133,16 @@ namespace Vue.Net.Example.EPi.Tests
                 Value = "<div slot=\"slot1\"><div>This is slot 1.</div></div><div slot=\"slot2\"><div>This is the second slot.</div></div>"
             });
         }
+
+        [Fact]
+        public void ComponentToTagName()
+        {
+            var tagName = "CoolComponentTagName";
+            var str = tagName.ToTagName();
+            str.Should().BeEquivalentTo(new
+            {
+                Value = $"my-vue-cool-component-tag-name"
+            });
+        }
     }
 }
