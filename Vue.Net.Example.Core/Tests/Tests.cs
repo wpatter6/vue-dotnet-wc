@@ -136,7 +136,7 @@ namespace Vue.Net.Example.Core.Tests
         public void ComponentToTagName()
         {
             var tagName = "CoolComponentTagName";
-            var str = tagName.ToTagName();
+            var str = tagName.ToWebComponentTagName();
             str.Should().BeEquivalentTo(new
             {
                 Value = $"my-vue-cool-component-tag-name"

@@ -138,10 +138,10 @@ namespace Vue.Net.Example.EPi.Tests
         public void ComponentToTagName()
         {
             var tagName = "CoolComponentTagName";
-            var str = tagName.ToTagName();
+            var str = tagName.ToWebComponentTagName();
             str.Should().BeEquivalentTo(new
             {
-                Value = $"my-vue-cool-component-tag-name"
+                Value = $"v-app-cool-component-tag-name"
             });
         }
     }
