@@ -56,7 +56,7 @@ namespace Vue.Net.Example.EPi.Models.Blocks
             Order = 40)]
         [CultureSpecific]
         [EditorDescriptor(EditorDescriptorType = typeof(CollectionEditorDescriptor<VueBlockNamedSlotContent>))]
-        public IList<IVueNamedSlot> NamedSlots { get; set; }
+        public IDictionary<string, string> NamedSlots { get; set; }
 
     }
 }

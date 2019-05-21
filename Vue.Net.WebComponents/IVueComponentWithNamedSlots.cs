@@ -5,8 +5,8 @@ namespace Vue.Net.WebComponents
     public interface IVueComponentWithNamedSlots
     {
         /// <summary>
-        /// A list of names and content to be rendered inside the Vue component instance as named slots.
+        /// A dictionary of names and content html strings to be rendered inside the Vue component instance as named slots.
         /// </summary>
-        IList<IVueNamedSlot> NamedSlots { get; }
+        IDictionary<string, string> NamedSlots { get; }
     }
 }

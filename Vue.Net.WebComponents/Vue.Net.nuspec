@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Vue.Net.WebComponents</id>
-    <version>0.1.5</version>
+    <version>0.1.6</version>
     <authors>Will Patterson</authors>
     <owners>Will Patterson</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

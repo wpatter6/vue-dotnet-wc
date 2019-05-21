@@ -90,19 +90,12 @@ namespace Vue.Net.Example.Core.Tests
         [Fact]
         public void RenderVueComponentNamedSlots()
         {
-            var namedSlot1 = new Mock<IVueNamedSlot>();
-            namedSlot1.Setup(m => m.SlotName).Returns("slot1");
-            namedSlot1.Setup(m => m.ContentHtml).Returns("<div>This is slot 1.</div>");
-
-            var namedSlot2 = new Mock<IVueNamedSlot>();
-            namedSlot2.Setup(m => m.SlotName).Returns("slot2");
-            namedSlot2.Setup(m => m.ContentHtml).Returns("<div>This is the second slot.</div>");
-
             var component = new Mock<IVueComponentWithNamedSlots>();
-            component.Setup(m => m.NamedSlots).Returns(new List<IVueNamedSlot>()
+            component.Setup(m => m.NamedSlots).Returns(new Dictionary<string, string>
             {
-                namedSlot1.Object,
-                namedSlot2.Object
+                {"slot1", "<div>This is slot 1.</div>" },
+
+                {"slot2", "<div>This is the second slot.</div>" },
             });
 
             var str = component.Object.RenderComponentNamedSlots();

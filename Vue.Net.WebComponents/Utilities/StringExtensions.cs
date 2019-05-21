@@ -34,13 +34,13 @@ namespace Vue.Net.WebComponents.Utilities
             var result = string.Empty;
             vueComponent.NamedSlots?.ToList().ForEach(content =>
             {
-                var slotTag = new TagBuilder(string.IsNullOrEmpty(content.TagName) ? "div" : content.TagName);
+                var slotTag = new TagBuilder("div");
 
-                slotTag.MergeAttribute("slot", content.SlotName);
+                slotTag.MergeAttribute("slot", content.Key);
 
-                if (content.ContentHtml != null)
+                if (content.Value != null)
                 {
-                    slotTag.InnerHtml += content.ContentHtml;
+                    slotTag.InnerHtml += content.Value;
                 }
 
                 result += slotTag.ToString();

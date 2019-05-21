@@ -15,6 +15,6 @@ namespace Vue.Net.Example.Core.Models
             { "msg", Message }
         };
         public string SlotHtml { get; set; }
-        public IList<IVueNamedSlot> NamedSlots { get; set; }
+        public IDictionary<string, string> NamedSlots { get; set; }
     }
 }
