@@ -64,7 +64,10 @@ namespace Vue.Net.WebComponents
                     result += " ";
                 }
 
-                result += $"{attr}=\"{value}\"";
+                if(value != null)
+                {
+                    result += $"{attr}=\"{value}\"";
+                }
             }
             return new HtmlString(result);
         }

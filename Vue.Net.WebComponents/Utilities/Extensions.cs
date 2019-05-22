@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Vue.Net.WebComponents.Utilities
 {
-    internal static class StringExtensions
+    internal static class Extensions
     {
         public static string PascalToKebabCase(this string value)
         {
