@@ -2,6 +2,8 @@
 
 # Vue.Net.WebComponents
 
+![Nuget Status](https://buildstats.info/nuget/Vue.Net.WebComponents)
+
 Simple integration of Vue.js web components and .NET standard MVC
 
 - `IVueComponent` interface is used for building C# objects that can be rendered into Vue web components.
