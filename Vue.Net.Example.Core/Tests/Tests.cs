@@ -1,14 +1,9 @@
 using System.Collections.Generic;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using FluentAssertions;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Vue.Net.WebComponents;
-using Vue.Net.Example.Core;
 using Vue.Net.Example.Core.Models;
 using Moq;
 
@@ -114,7 +109,7 @@ namespace Vue.Net.Example.Core.Tests
             var str = VueDotNet.RenderScriptTags(VueScriptLocation.Foot);
             str.Should().BeEquivalentTo(new
             {
-                Value = $"<script src=\"{VueUrl}\"></script><script src=\"{AppUrl}\"></script>"
+                Value = $"<script src=\"{VueUrl}?d5c38adb09ff79efa1c4d0745dfd308c\"></script><script src=\"{AppUrl}?9783f695694f40525c6e1bd9ad38ac6d\"></script>"
             });
         }
 
@@ -124,7 +119,7 @@ namespace Vue.Net.Example.Core.Tests
             var str = VueDotNet.RenderScriptTags(VueScriptLocation.Head);
             str.Should().BeEquivalentTo(new
             {
-                Value = $"<link as=\"script\" href=\"{VueUrl}\" rel=\"preload\"></link><link as=\"script\" href=\"{AppUrl}\" rel=\"preload\"></link>"
+                Value = $"<link as=\"script\" href=\"{VueUrl}?d5c38adb09ff79efa1c4d0745dfd308c\" rel=\"preload\"></link><link as=\"script\" href=\"{AppUrl}?9783f695694f40525c6e1bd9ad38ac6d\" rel=\"preload\"></link>"
             });
         }
 

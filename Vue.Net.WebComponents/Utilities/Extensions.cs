@@ -76,36 +76,40 @@ namespace Vue.Net.WebComponents.Utilities
             StringEscapeHandling = StringEscapeHandling.EscapeHtml
         };
 
-        private static HttpClient Client = new HttpClient();
+        private static HttpClient Client = new HttpClient()
+        {
+            Timeout = new TimeSpan(0, 0, 5),
+        };
 
         public static async Task<string> GetFileHash(this string fileLocation)
         {
+            var location = fileLocation;
             if (FileHashes.ContainsKey(fileLocation))
             {
                 return FileHashes[fileLocation];
             }
 
             var fileString = string.Empty;
-            var pathInfo = GetPathInfo(fileLocation);
+            var pathInfo = GetPathInfo(location);
 
             if(!pathInfo.isFile)
             {
-                fileString = await Client.GetStringAsync(fileLocation);
+                fileString = await Client.GetStringAsync(location);
             }
             else
             {
                 if(!pathInfo.isAbsolute)
                 {
-                    if(string.IsNullOrEmpty(VueConfig.Settings.WebRoot))
-                    {
-                        FileHashes.Add(fileLocation, string.Empty);
-                        return string.Empty;
-                    }
-
-                    fileLocation = VueConfig.Settings.WebRoot + fileLocation;
+                    location = VueConfig.Settings.WebRoot + location;
                 }
 
-                fileString = File.ReadAllText(fileLocation);
+                if(!File.Exists(location))
+                {
+                    FileHashes.Add(fileLocation, string.Empty);
+                    return string.Empty;
+                }
+
+                fileString = File.ReadAllText(location);
             }
 
             using (var md5 = new MD5CryptoServiceProvider())

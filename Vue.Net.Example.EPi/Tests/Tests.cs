@@ -41,7 +41,7 @@ namespace Vue.Net.Example.EPi.Tests
             var str = VueDotNet.RenderScriptTags(VueScriptLocation.Head);
             str.Should().BeEquivalentTo(new
             {
-                Value = $"<link as=\"script\" href=\"{VueUrl}\" rel=\"preload\"></link><link as=\"script\" href=\"{AppUrl}\" rel=\"preload\"></link>"
+                Value = $"<link as=\"script\" href=\"{VueUrl}?d5c38adb09ff79efa1c4d0745dfd308c\" rel=\"preload\"></link><link as=\"script\" href=\"{AppUrl}?d666fb4b769d4533f3d3b1f76475c605\" rel=\"preload\"></link>"
             });
         }
 
@@ -51,7 +51,7 @@ namespace Vue.Net.Example.EPi.Tests
             var str = VueDotNet.RenderScriptTags(VueScriptLocation.Foot);
             str.Should().BeEquivalentTo(new 
             {
-                Value = $"<script src=\"{VueUrl}\"></script><script src=\"{AppUrl}\"></script>"
+                Value = $"<script src=\"{VueUrl}?d5c38adb09ff79efa1c4d0745dfd308c\"></script><script src=\"{AppUrl}?d666fb4b769d4533f3d3b1f76475c605\"></script>"
             });
         }
 

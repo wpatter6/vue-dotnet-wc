@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
 namespace Vue.Net.WebComponents
@@ -15,7 +16,7 @@ namespace Vue.Net.WebComponents
         string VueUrl { get; }
         IEnumerable<IVueConfigComponent> Components { get; }
         IEnumerable<IVueConfigScript> Scripts { get; }
-        string WebRoot { get; set; }
+        string WebRoot { get; }
         bool CacheBust { get; }
     }
 
@@ -61,7 +62,13 @@ namespace Vue.Net.WebComponents
 
         public virtual bool CacheBust => !CacheBustString?.Equals("false", StringComparison.InvariantCultureIgnoreCase) ?? true;
 
-        public virtual string WebRoot { get; set; }
+        public virtual string WebRoot {
+            get
+            {
+                // TODO Fix this hack if I ever get a response on https://github.com/dotnet/standard/issues/1228
+                return Directory.GetCurrentDirectory() + @"..\..\";
+            }
+        }
     }
 
     public class CoreVueConfig : IVueConfig
@@ -169,8 +176,8 @@ namespace Vue.Net.WebComponents
                 VueUrl = config["vueUrl"],
                 Components = componentList.Select(n => new CoreVueComponent(n)),
                 Scripts = scriptList.Select(n => new CoreVueScript(n)),
-                WebRoot = env.WebRootPath,
-                CacheBust = !config["cacheBust"].Equals("false", StringComparison.InvariantCultureIgnoreCase),
+                WebRoot = env.WebRootPath ?? env.ContentRootPath + @"..\..\..\wwwroot\",
+                CacheBust = !config["cacheBust"]?.Equals("false", StringComparison.InvariantCultureIgnoreCase) ?? true,
             };
 
             return env;

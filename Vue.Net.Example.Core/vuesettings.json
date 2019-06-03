@@ -1,6 +1,5 @@
 {
   "appPrefix": "my-vue",
-  "cacheBust": "false",
   "components": [
     "Home"
   ],
