@@ -15,7 +15,7 @@ namespace Vue.Net.Example.EPi.Tests
     public class Tests
     {
         private const string VueUrl = "https://unpkg.com/vue@2.6.10";
-        private const string AppUrl = "https://vuecdndev2.azureedge.net/v-app.js";
+        private const string AppUrl = "/Scripts/dist/v-app.js";
 
         [Fact]
         public void GetVueConfigSettings()

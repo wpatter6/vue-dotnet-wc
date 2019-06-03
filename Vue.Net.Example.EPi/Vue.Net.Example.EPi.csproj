@@ -281,7 +281,53 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\dist\my-vue.1.js.map">
+      <DependentUpon>my-vue.1.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\my-vue.1.min.js.map">
+      <DependentUpon>my-vue.1.min.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\my-vue.2.js.map">
+      <DependentUpon>my-vue.2.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\my-vue.2.min.js.map">
+      <DependentUpon>my-vue.2.min.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\my-vue.js.map">
+      <DependentUpon>my-vue.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\my-vue.min.js.map">
+      <DependentUpon>my-vue.min.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\v-app.js.map">
+      <DependentUpon>v-app.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\v-app.min.js.map">
+      <DependentUpon>v-app.min.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\dist\demo.html" />
+    <Content Include="Scripts\dist\img\logo.82b9c7a5.png" />
+    <Content Include="Scripts\dist\my-vue.1.js">
+      <DependentUpon>my-vue.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\my-vue.1.min.js">
+      <DependentUpon>my-vue.1.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\my-vue.2.js">
+      <DependentUpon>my-vue.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\my-vue.2.min.js">
+      <DependentUpon>my-vue.2.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\my-vue.js" />
+    <Content Include="Scripts\dist\my-vue.min.js">
+      <DependentUpon>my-vue.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\dist\v-app.js" />
+    <Content Include="Scripts\dist\v-app.min.js">
+      <DependentUpon>v-app.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
