@@ -13,11 +13,17 @@ namespace Vue.Net.WebComponents
         string AppPrefix { get; }
         string VueUrl { get; }
         IEnumerable<IVueConfigComponent> Components { get; }
+        IEnumerable<IVueConfigScript> Scripts { get; }
     }
 
     public interface IVueConfigComponent
     {
         string Name { get; }
+    }
+
+    public interface IVueConfigScript
+    {
+        string Url { get; }
     }
 
     public class VueConfig : System.Configuration.ConfigurationSection, IVueConfig
@@ -39,7 +45,13 @@ namespace Vue.Net.WebComponents
         [ConfigurationCollection(typeof(string), AddItemName = "component")]
         public virtual Components ComponentList => this["components"] as Components;
 
+        [ConfigurationProperty("scripts")]
+        [ConfigurationCollection(typeof(string), AddItemName = "script")]
+        public virtual Scripts ScriptList => this["scripts"] as Scripts;
+
         public virtual IEnumerable<IVueConfigComponent> Components => ComponentList;
+
+        public virtual IEnumerable<IVueConfigScript> Scripts => ScriptList;
     }
 
     public class CoreVueConfig : IVueConfig
@@ -48,8 +60,11 @@ namespace Vue.Net.WebComponents
         public string AppPrefix { get; set; }
         public string VueUrl { get; set; }
         public IEnumerable<CoreVueComponent> Components { get; set; }
+        public IEnumerable<CoreVueScript> Scripts { get; set; }
 
         IEnumerable<IVueConfigComponent> IVueConfig.Components => Components;
+
+        IEnumerable<IVueConfigScript> IVueConfig.Scripts => Scripts;
     }
 
     public class CoreVueComponent: IVueConfigComponent
@@ -59,6 +74,16 @@ namespace Vue.Net.WebComponents
             Name = name;
         }
         public string Name { get; private set; }
+    }
+
+    public class CoreVueScript: IVueConfigScript
+    {
+        public CoreVueScript(string url)
+        {
+            Url = url;
+        }
+
+        public string Url { get; private set; }
     }
 
     public class component : ConfigurationElement, IVueConfigComponent
@@ -123,16 +148,68 @@ namespace Vue.Net.WebComponents
             var config = builder.Build();
 
             var componentList = config.GetSection("components").Get<List<string>>();
+            var scriptList = config.GetSection("scripts").Get<List<string>>();
 
             VueConfigStatic = new CoreVueConfig()
             {
                 AppUrl = config["appUrl"],
                 AppPrefix = config["appPrefix"],
                 VueUrl = config["vueUrl"],
-                Components = componentList.Select(n => new CoreVueComponent(n))
+                Components = componentList.Select(n => new CoreVueComponent(n)),
+                Scripts = scriptList.Select(n => new CoreVueScript(n)),
             };
 
             return env;
         }
+    }
+
+    public class Scripts : ConfigurationElementCollection, IEnumerable<IVueConfigScript>
+    {
+        public script this[int index]
+        {
+            get => BaseGet(index) as script;
+            set
+            {
+                if (BaseGet(index) != null)
+                {
+                    BaseRemoveAt(index);
+                }
+                BaseAdd(index, value);
+            }
+        }
+
+        public new script this[string responseString]
+        {
+            get => BaseGet(responseString) as script;
+            set
+            {
+                if (BaseGet(responseString) != null)
+                {
+                    BaseRemoveAt(BaseIndexOf(BaseGet(responseString)));
+                }
+                BaseAdd(value);
+            }
+        }
+
+        protected override ConfigurationElement CreateNewElement()
+        {
+            return new script();
+        }
+
+        protected override object GetElementKey(ConfigurationElement element)
+        {
+            return ((script)element).Url;
+        }
+
+        IEnumerator<IVueConfigScript> IEnumerable<IVueConfigScript>.GetEnumerator()
+        {
+            return this.BaseGetAllKeys().Select(key => (script)BaseGet(key)).GetEnumerator();
+        }
+    }
+
+    public class script: ConfigurationElement, IVueConfigScript
+    {
+        [ConfigurationProperty("url", IsRequired = true)]
+        public string Url => this["url"] as string;
     }
 }

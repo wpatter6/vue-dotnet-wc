@@ -30,12 +30,15 @@ namespace Vue.Net.Example.Core.Tests
         {
             VueConfig.Settings.Should().BeEquivalentTo(new
             {
-                AppUrl,
                 AppPrefix = "my-vue",
-                VueUrl,
                 Components = new dynamic[]
                 {
                     new { Name = "Home" },
+                },
+                Scripts = new dynamic[]
+                {
+                    new { Url = VueUrl },
+                    new { Url = AppUrl }
                 }
             });
         }

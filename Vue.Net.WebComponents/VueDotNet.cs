@@ -102,12 +102,21 @@ namespace Vue.Net.WebComponents
         {
             var vueLink = GetStaticElement(location, VueConfig.Settings.VueUrl);
             var appLink = GetStaticElement(location, VueConfig.Settings.AppUrl);
+            var result = $"{vueLink}{appLink}";
+            foreach (var script in VueConfig.Settings.Scripts)
+            {
+                result += GetStaticElement(location, script.Url);
+            }
 
-            return new HtmlString($"{vueLink}{appLink}");
+            return new HtmlString(result);
         }
 
         private static TagBuilder GetStaticElement(VueScriptLocation location, string url)
         {
+            if(string.IsNullOrEmpty(url))
+            {
+                return null;
+            }
             switch (location)
             {
                 case VueScriptLocation.Head:

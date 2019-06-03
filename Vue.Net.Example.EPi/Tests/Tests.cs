@@ -22,12 +22,15 @@ namespace Vue.Net.Example.EPi.Tests
         {
             VueConfig.Settings.Should().BeEquivalentTo(new
             {
-                AppUrl,
                 AppPrefix = "v-app",
-                VueUrl,
                 Components = new dynamic[]
                 {
                     new { Name = "HelloWorld" },
+                },
+                Scripts = new dynamic[]
+                {
+                    new { Url = VueUrl },
+                    new { Url = AppUrl }
                 }
             });
         }
