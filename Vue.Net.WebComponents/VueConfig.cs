@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace Vue.Net.WebComponents
         string VueUrl { get; }
         IEnumerable<IVueConfigComponent> Components { get; }
         IEnumerable<IVueConfigScript> Scripts { get; }
+        string WebRoot { get; set; }
+        bool CacheBust { get; }
     }
 
     public interface IVueConfigComponent
@@ -41,17 +44,24 @@ namespace Vue.Net.WebComponents
         [ConfigurationProperty("vueUrl")]
         public virtual string VueUrl => this["vueUrl"] as string;
 
+        [ConfigurationProperty("cacheBust")]
+        protected virtual string CacheBustString => this["cacheBust"] as string;
+
         [ConfigurationProperty("components")]
         [ConfigurationCollection(typeof(string), AddItemName = "component")]
-        public virtual Components ComponentList => this["components"] as Components;
+        protected virtual Components ComponentList => this["components"] as Components;
 
         [ConfigurationProperty("scripts")]
         [ConfigurationCollection(typeof(string), AddItemName = "script")]
-        public virtual Scripts ScriptList => this["scripts"] as Scripts;
+        protected virtual Scripts ScriptList => this["scripts"] as Scripts;
 
         public virtual IEnumerable<IVueConfigComponent> Components => ComponentList;
 
         public virtual IEnumerable<IVueConfigScript> Scripts => ScriptList;
+
+        public virtual bool CacheBust => !CacheBustString?.Equals("false", StringComparison.InvariantCultureIgnoreCase) ?? true;
+
+        public virtual string WebRoot { get; set; }
     }
 
     public class CoreVueConfig : IVueConfig
@@ -65,6 +75,8 @@ namespace Vue.Net.WebComponents
         IEnumerable<IVueConfigComponent> IVueConfig.Components => Components;
 
         IEnumerable<IVueConfigScript> IVueConfig.Scripts => Scripts;
+        public string WebRoot { get; set; }
+        public bool CacheBust { get; set; }
     }
 
     public class CoreVueComponent: IVueConfigComponent
@@ -157,6 +169,8 @@ namespace Vue.Net.WebComponents
                 VueUrl = config["vueUrl"],
                 Components = componentList.Select(n => new CoreVueComponent(n)),
                 Scripts = scriptList.Select(n => new CoreVueScript(n)),
+                WebRoot = env.WebRootPath,
+                CacheBust = !config["cacheBust"].Equals("false", StringComparison.InvariantCultureIgnoreCase),
             };
 
             return env;

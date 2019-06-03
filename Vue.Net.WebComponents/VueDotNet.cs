@@ -3,6 +3,7 @@ using Vue.Net.WebComponents.Utilities;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Microsoft.AspNetCore.Html;
+using System.Threading.Tasks;
 
 namespace Vue.Net.WebComponents
 {
@@ -117,6 +118,24 @@ namespace Vue.Net.WebComponents
             {
                 return null;
             }
+
+            if(VueConfig.Settings.CacheBust)
+            {
+                var task = url.GetFileHash();
+                task.Wait();
+
+                if (url.Contains("?"))
+                {
+                    url += "&";
+                }
+                else
+                {
+                    url += "?";
+                }
+
+                url += task.Result;
+            }
+
             switch (location)
             {
                 case VueScriptLocation.Head:
@@ -130,6 +149,7 @@ namespace Vue.Net.WebComponents
                     return headTag;
                 case VueScriptLocation.Foot:
                     var bodyTag = new TagBuilder("script");
+                    
                     bodyTag.MergeAttributes(new Dictionary<string, string>()
                     {
                         {"src", url }
