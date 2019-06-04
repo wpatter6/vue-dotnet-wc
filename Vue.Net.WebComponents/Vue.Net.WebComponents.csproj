@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Vue.Net.WebComponents</RootNamespace>
-    <Version>0.1.10</Version>
+    <Version>0.1.11</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <NuspecFile>Vue.Net.nuspec</NuspecFile>
   </PropertyGroup>
@@ -20,6 +20,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Include="WebActivatorEx" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

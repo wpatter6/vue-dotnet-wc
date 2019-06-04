@@ -6,7 +6,6 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
 
-
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -14,11 +13,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.0" />
     <PackageReference Include="Moq" Version="4.10.1" />
-    <PackageReference Include="Vue.Net.WebComponents" Version="0.1.10" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Vue.Net.WebComponents\Vue.Net.WebComponents.csproj" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Content Update="vuesettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -76,12 +76,12 @@ namespace Vue.Net.WebComponents.Utilities
             StringEscapeHandling = StringEscapeHandling.EscapeHtml
         };
 
-        private static HttpClient Client = new HttpClient()
+        private static readonly HttpClient Client = new HttpClient()
         {
             Timeout = new TimeSpan(0, 0, 5),
         };
 
-        public static async Task<string> GetFileHash(this string fileLocation)
+        public static string GetFileHash(this string fileLocation)
         {
             var location = fileLocation;
             if (FileHashes.ContainsKey(fileLocation))
@@ -94,7 +94,11 @@ namespace Vue.Net.WebComponents.Utilities
 
             if(!pathInfo.isFile)
             {
-                fileString = await Client.GetStringAsync(location);
+                var requestTask = Client.GetStringAsync(location);
+
+                requestTask.Wait();
+
+                fileString = requestTask.Result;
             }
             else
             {

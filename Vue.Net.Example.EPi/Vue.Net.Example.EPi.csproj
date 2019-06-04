@@ -64,6 +64,9 @@
     <Reference Include="EPiServer, Version=11.11.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\packages\EPiServer.CMS.Core.11.11.3\lib\net461\EPiServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPiServer.AddOns.Helpers, Version=0.4.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.AddOns.Helpers.0.4.0.0\lib\EPiServer.AddOns.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.ApplicationModules, Version=11.11.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\packages\EPiServer.Framework.11.11.3\lib\net461\EPiServer.ApplicationModules.dll</HintPath>
     </Reference>
@@ -91,6 +94,15 @@
     <Reference Include="EPiServer.Events, Version=11.11.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\packages\EPiServer.Framework.11.11.3\lib\net461\EPiServer.Events.dll</HintPath>
     </Reference>
+    <Reference Include="EPiServer.Forms, Version=4.24.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Forms.4.24.3\lib\EPiServer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Forms.Core, Version=4.24.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Forms.Core.4.24.3\lib\EPiServer.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Forms.UI, Version=4.24.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Forms.UI.4.24.3\lib\EPiServer.Forms.UI.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.Framework, Version=11.11.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\packages\EPiServer.Framework.11.11.3\lib\net461\EPiServer.Framework.dll</HintPath>
     </Reference>
@@ -108,6 +120,9 @@
     </Reference>
     <Reference Include="EPiServer.Logging.Log4Net, Version=2.2.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\packages\EPiServer.Logging.Log4Net.2.2.2\lib\net461\EPiServer.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Search.Cms, Version=9.0.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Search.Cms.9.0.3\lib\net461\EPiServer.Search.Cms.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.ServiceLocation.StructureMap, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EPiServer.ServiceLocation.StructureMap.2.0.1\lib\net461\EPiServer.ServiceLocation.StructureMap.dll</HintPath>
@@ -233,9 +248,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Vue.Net.WebComponents, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vue.Net.WebComponents.0.1.10\lib\netstandard2.0\Vue.Net.WebComponents.dll</HintPath>
-    </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
@@ -257,21 +269,21 @@
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Blocks\VueBlock.cs" />
     <Compile Include="Models\Blocks\VueBlockNamedSlotContent.cs" />
     <Compile Include="Models\Blocks\VueComponentSelectionFactory.cs" />
+    <Compile Include="Models\Pages\Page.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Tests.cs" />
     <Compile Include="Tests\TestUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Business\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\Media\" />
-    <Folder Include="Models\Pages\" />
     <Folder Include="Models\Properties\" />
     <Folder Include="Static\" />
   </ItemGroup>
@@ -282,6 +294,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="modules\_protected\EPiServer.Search.Cms\IndexContent.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\dist\my-vue.1.js.map">
@@ -308,6 +321,12 @@
     <Content Include="Scripts\dist\v-app.min.js.map">
       <DependentUpon>v-app.min.js</DependentUpon>
     </Content>
+    <Content Include="modules\_protected\EPiServer.Search.Cms\module.config" />
+    <Content Include="modules\_protected\EPiServer.Forms.UI\module.config" />
+    <Content Include="modules\_protected\EPiServer.Forms.UI\EPiServer.Forms.UI.zip" />
+    <Content Include="modules\_protected\EPiServer.Forms\Views\ElementBlocks\Web.config" />
+    <Content Include="modules\_protected\EPiServer.Forms\Forms.config" />
+    <Content Include="modules\_protected\EPiServer.Forms\EPiServer.Forms.zip" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\dist\demo.html" />
     <Content Include="Scripts\dist\img\logo.82b9c7a5.png" />
@@ -361,6 +380,7 @@
     <Content Include="Views\Shared\Blocks\VueBlock.cshtml" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Views\Page\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -370,6 +390,12 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vue.Net.WebComponents\Vue.Net.WebComponents.csproj">
+      <Project>{d059e7bd-ab8f-4754-b8de-8daab4dd02c1}</Project>
+      <Name>Vue.Net.WebComponents</Name>
+    </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>

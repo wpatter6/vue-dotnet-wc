@@ -71,6 +71,7 @@ namespace Vue.Net.WebComponents
         }
     }
 
+
     public class CoreVueConfig : IVueConfig
     {
         public string AppUrl { get; set; }

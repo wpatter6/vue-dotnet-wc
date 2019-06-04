@@ -112,6 +112,14 @@ namespace Vue.Net.WebComponents
             return new HtmlString(result);
         }
 
+        public static void GetScriptHashes()
+        {
+            foreach(var script in VueConfig.Settings.Scripts)
+            {
+                script.Url.GetFileHash();
+            }
+        }
+
         private static TagBuilder GetStaticElement(VueScriptLocation location, string url)
         {
             if(string.IsNullOrEmpty(url))
@@ -121,19 +129,20 @@ namespace Vue.Net.WebComponents
 
             if(VueConfig.Settings.CacheBust)
             {
-                var task = url.GetFileHash();
-                task.Wait();
-
-                if (url.Contains("?"))
+                var hash = url.GetFileHash();
+                if(!string.IsNullOrEmpty(hash))
                 {
-                    url += "&";
-                }
-                else
-                {
-                    url += "?";
-                }
+                    if (url.Contains("?"))
+                    {
+                        url += "&";
+                    }
+                    else
+                    {
+                        url += "?";
+                    }
 
-                url += task.Result;
+                    url += hash;
+                }
             }
 
             switch (location)
