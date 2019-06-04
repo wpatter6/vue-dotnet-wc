@@ -233,6 +233,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Vue.Net.WebComponents, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vue.Net.WebComponents.0.1.10\lib\netstandard2.0\Vue.Net.WebComponents.dll</HintPath>
+    </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
@@ -367,12 +370,6 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Vue.Net.WebComponents\Vue.Net.WebComponents.csproj">
-      <Project>{d059e7bd-ab8f-4754-b8de-8daab4dd02c1}</Project>
-      <Name>Vue.Net.WebComponents</Name>
-    </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
