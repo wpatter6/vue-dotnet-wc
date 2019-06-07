@@ -4,7 +4,12 @@
     "Home"
   ],
   "scripts": [
-    "https://unpkg.com/vue@2.6.10",
-    "/js/dist/my-vue.js"
+    {
+      "noHash": true,
+      "url": "https://unpkg.com/vue@2.6.10"
+    },
+    {
+      "url": "/js/dist/my-vue.js"
+    }
   ]
 }

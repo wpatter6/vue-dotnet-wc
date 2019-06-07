@@ -81,10 +81,10 @@ namespace Vue.Net.WebComponents.Utilities
             Timeout = new TimeSpan(0, 0, 5),
         };
 
-        public static string GetFileHash(this string fileLocation)
+        public static string GetFileHash(this string fileLocation, bool forceUpdate = false)
         {
             var location = fileLocation;
-            if (FileHashes.ContainsKey(fileLocation))
+            if (FileHashes.ContainsKey(fileLocation) && !forceUpdate)
             {
                 return FileHashes[fileLocation];
             }
@@ -109,7 +109,7 @@ namespace Vue.Net.WebComponents.Utilities
 
                 if(!File.Exists(location))
                 {
-                    FileHashes.Add(fileLocation, string.Empty);
+                    FileHashes[fileLocation] = string.Empty;
                     return string.Empty;
                 }
 
@@ -120,7 +120,7 @@ namespace Vue.Net.WebComponents.Utilities
             {
                 md5.ComputeHash(Encoding.UTF8.GetBytes(fileString));
                 var result = string.Join(string.Empty, md5.Hash.Select(x => x.ToString("x2")));
-                FileHashes.Add(fileLocation, result);
+                FileHashes[fileLocation] = result;
                 return result;
             }
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Microsoft.AspNetCore.Html;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Vue.Net.WebComponents
 {
@@ -106,7 +107,7 @@ namespace Vue.Net.WebComponents
             var result = $"{vueLink}{appLink}";
             foreach (var script in VueConfig.Settings.Scripts)
             {
-                result += GetStaticElement(location, script.Url);
+                result += GetStaticElement(location, script.Url, !script.NoHash);
             }
 
             return new HtmlString(result);
@@ -114,20 +115,20 @@ namespace Vue.Net.WebComponents
 
         public static void GetScriptHashes()
         {
-            foreach(var script in VueConfig.Settings.Scripts)
+            foreach(var script in VueConfig.Settings.Scripts.Where(script => script.NoHash))
             {
-                script.Url.GetFileHash();
+                script.Url.GetFileHash(true);
             }
         }
 
-        private static TagBuilder GetStaticElement(VueScriptLocation location, string url)
+        private static TagBuilder GetStaticElement(VueScriptLocation location, string url, bool cacheBust = false)
         {
             if(string.IsNullOrEmpty(url))
             {
                 return null;
             }
 
-            if(VueConfig.Settings.CacheBust)
+            if(VueConfig.Settings.CacheBust && cacheBust)
             {
                 var hash = url.GetFileHash();
                 if(!string.IsNullOrEmpty(hash))

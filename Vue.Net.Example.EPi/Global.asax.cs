@@ -10,7 +10,7 @@ namespace Vue.Net.Example.EPi
         {
             AreaRegistration.RegisterAllAreas();
 
-            VueDotNet.GetScriptHashes();
+            //VueDotNet.GetScriptHashes();
             //Tip: Want to call the EPiServer API on startup? Add an initialization module instead (Add -> New Item.. -> EPiServer -> Initialization Module)
         }
     }

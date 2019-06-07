@@ -28,6 +28,7 @@ namespace Vue.Net.WebComponents
     public interface IVueConfigScript
     {
         string Url { get; }
+        bool NoHash { get; }
     }
 
     public class VueConfig : System.Configuration.ConfigurationSection, IVueConfig
@@ -98,12 +99,9 @@ namespace Vue.Net.WebComponents
 
     public class CoreVueScript: IVueConfigScript
     {
-        public CoreVueScript(string url)
-        {
-            Url = url;
-        }
+        public string Url { get; set; }
 
-        public string Url { get; private set; }
+        public bool NoHash { get; set; }
     }
 
     public class component : ConfigurationElement, IVueConfigComponent
@@ -167,16 +165,16 @@ namespace Vue.Net.WebComponents
                 .AddJsonFile($"vuesettings.{env.EnvironmentName}.json", optional: true);
             var config = builder.Build();
 
-            var componentList = config.GetSection("components").Get<List<string>>();
-            var scriptList = config.GetSection("scripts").Get<List<string>>();
+            var componentList = config.GetSection("components")?.Get<List<string>>();
+            var scriptList = config.GetSection("scripts")?.GetChildren()?.Select(c => c.Get<CoreVueScript>());
 
             VueConfigStatic = new CoreVueConfig()
             {
                 AppUrl = config["appUrl"],
                 AppPrefix = config["appPrefix"],
                 VueUrl = config["vueUrl"],
-                Components = componentList.Select(n => new CoreVueComponent(n)),
-                Scripts = scriptList.Select(n => new CoreVueScript(n)),
+                Components = componentList?.Select(n => new CoreVueComponent(n)),
+                Scripts = scriptList,
                 WebRoot = env.WebRootPath ?? env.ContentRootPath + @"..\..\..\wwwroot\",
                 CacheBust = !config["cacheBust"]?.Equals("false", StringComparison.InvariantCultureIgnoreCase) ?? true,
             };
@@ -233,5 +231,7 @@ namespace Vue.Net.WebComponents
     {
         [ConfigurationProperty("url", IsRequired = true)]
         public string Url => this["url"] as string;
+        [ConfigurationProperty("noHash", IsRequired = false)]
+        public bool NoHash => (this["noHash"] as string)?.Equals("true", StringComparison.InvariantCultureIgnoreCase) ?? false;
     }
 }
