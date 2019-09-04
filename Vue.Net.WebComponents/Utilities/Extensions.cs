@@ -35,24 +35,6 @@ namespace Vue.Net.WebComponents.Utilities
             return !string.IsNullOrEmpty(VueConfig.Settings?.AppPrefix) ? $"{VueConfig.Settings.AppPrefix}-{value.PascalToKebabCase()}" : value.PascalToKebabCase();
 
         }
-        public static string GetNamedSlotString(this IVueComponentWithNamedSlots vueComponent)
-        {
-            var result = string.Empty;
-            vueComponent.NamedSlots?.ToList().ForEach(content =>
-            {
-                var slotTag = new TagBuilder("div");
-
-                slotTag.MergeAttribute("slot", content.Key);
-
-                if (content.Value != null)
-                {
-                    slotTag.InnerHtml += content.Value;
-                }
-
-                result += slotTag.ToString();
-            });
-            return result;
-        }
 
         private static string EscapeAttr(this string str)
         {

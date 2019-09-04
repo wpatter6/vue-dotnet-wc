@@ -48,16 +48,11 @@ namespace Vue.Net.WebComponents
             return new HtmlString(value.ComponentToTagName());
         }
 
-        /// <summary>
-        /// Renders the HtmlString of props for an IVueComponentWithProps
-        /// </summary>
-        /// <param name="vueComponent"></param>
-        /// <returns></returns>
-        public static HtmlString RenderComponentProps(this IVueComponentWithProps vueComponent)
+        public static HtmlString RenderComponentProps(this IDictionary<string, object> dictionary)
         {
             var result = string.Empty;
 
-            foreach (var item in vueComponent.Props)
+            foreach (var item in dictionary)
             {
                 var (attr, value) = item.GetPropWithValue();
 
@@ -66,12 +61,22 @@ namespace Vue.Net.WebComponents
                     result += " ";
                 }
 
-                if(value != null)
+                if (value != null)
                 {
                     result += $"{attr}=\"{value}\"";
                 }
             }
             return new HtmlString(result);
+        }
+
+        /// <summary>
+        /// Renders the HtmlString of props for an IVueComponentWithProps
+        /// </summary>
+        /// <param name="vueComponent"></param>
+        /// <returns></returns>
+        public static HtmlString RenderComponentProps(this IVueComponentWithProps vueComponent)
+        {
+            return vueComponent.Props.RenderComponentProps();
         }
 
         /// <summary>
@@ -93,7 +98,29 @@ namespace Vue.Net.WebComponents
         {
             return new HtmlString(vueComponent.GetNamedSlotString());
         }
-        
+        public static string GetNamedSlotString(this IDictionary<string, string> dictionary)
+        {
+            var result = string.Empty;
+            dictionary?.ToList().ForEach(content =>
+            {
+                var slotTag = new TagBuilder("div");
+
+                slotTag.MergeAttribute("slot", content.Key);
+
+                if (content.Value != null)
+                {
+                    slotTag.InnerHtml += content.Value;
+                }
+
+                result += slotTag.ToString();
+            });
+            return result;
+        }
+        public static string GetNamedSlotString(this IVueComponentWithNamedSlots vueComponent)
+        {
+            return vueComponent.NamedSlots.GetNamedSlotString();
+        }
+
         /// <summary>
         /// Renders the script tags using the appUrl and vueUrl values in the application configuration file.
         /// </summary>
