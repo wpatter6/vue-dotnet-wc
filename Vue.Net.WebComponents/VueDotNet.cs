@@ -28,8 +28,10 @@ namespace Vue.Net.WebComponents
                 foreach(var item in vueComponent.Props)
                 {
                     var (attr, value) = item.GetPropWithValue();
-
-                    outerElement.MergeAttribute(attr, value);
+                    if(!string.IsNullOrEmpty(value))
+                    {
+                        outerElement.MergeAttribute(attr, value);
+                    }
                 }
             }
 
@@ -56,13 +58,13 @@ namespace Vue.Net.WebComponents
             {
                 var (attr, value) = item.GetPropWithValue();
 
-                if (!string.IsNullOrEmpty(result))
+                if (!string.IsNullOrEmpty(value))
                 {
-                    result += " ";
-                }
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        result += " ";
+                    }
 
-                if (value != null)
-                {
                     result += $"{attr}=\"{value}\"";
                 }
             }
@@ -103,16 +105,16 @@ namespace Vue.Net.WebComponents
             var result = string.Empty;
             dictionary?.ToList().ForEach(content =>
             {
-                var slotTag = new TagBuilder("div");
-
-                slotTag.MergeAttribute("slot", content.Key);
-
-                if (content.Value != null)
+                if(!string.IsNullOrEmpty(content.Value))
                 {
-                    slotTag.InnerHtml += content.Value;
-                }
+                    var slotTag = new TagBuilder("div");
 
-                result += slotTag.ToString();
+                    slotTag.MergeAttribute("slot", content.Key);
+
+                    slotTag.InnerHtml += content.Value;
+
+                    result += slotTag.ToString();
+                }
             });
             return result;
         }

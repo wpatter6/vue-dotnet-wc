@@ -55,6 +55,22 @@ namespace Vue.Net.Example.Core.Tests
         }
 
         [Fact]
+        public void RenderVueComponentWithBlanks()
+        {
+            var component = new VueComponent()
+            {
+                ComponentName = "HelloWorld",
+                Message = ""
+            };
+
+            var str = component.RenderComponent();
+            str.Should().BeEquivalentTo(new
+            {
+                Value = "<my-vue-hello-world></my-vue-hello-world>"
+            });
+        }
+
+        [Fact]
         public void RenderVueComponentProps()
         {
             var component = new Mock<IVueComponentWithProps>();
@@ -68,6 +84,24 @@ namespace Vue.Net.Example.Core.Tests
             str.Should().BeEquivalentTo(new
             {
                 Value = "abc=\"def\" :hij=\"{'name':'klm'}\""
+            });
+        }
+
+        [Fact]
+        public void RenderVueComponentPropsWithBlanks()
+        {
+            var component = new Mock<IVueComponentWithProps>();
+            component.Setup(m => m.Props).Returns(new Dictionary<string, object>()
+            {
+                { "abc", "" },
+                { "hij", new { name = "klm" } },
+                { "ghi", "" }
+            });
+
+            var str = component.Object.RenderComponentProps();
+            str.Should().BeEquivalentTo(new
+            {
+                Value = ":hij=\"{'name':'klm'}\""
             });
         }
 
